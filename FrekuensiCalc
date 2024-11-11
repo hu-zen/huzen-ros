@@ -1,0 +1,4 @@
+# File: FrekuensiCalc.srv
+float64 period    # Input periode dalam detik
+---
+float64 frequency # Output frekuensi dalam Hz

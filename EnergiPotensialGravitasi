@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+from __future__ import print_function
+import rospy
+from beginner_tutorials.srv import EnergiPotensialGravitasi, EnergiPotensialGravitasiResponse
+
+# Fungsi untuk menghitung energi potensial gravitasi
+def handle_calculate_energi_potensial_gravitasi(req):
+    g = 9.81  # percepatan gravitasi (m/s^2)
+    energy = req.mass * g * req.height
+    print("Menghitung energi potensial dengan massa=%s, ketinggian=%s. Hasil: %s" % (req.mass, req.height, energy))
+    return EnergiPotensialGravitasiResponse(energy)
+
+# Fungsi untuk menjalankan server
+def energi_potensial_gravitasi_server():
+    rospy.init_node('energi_potensial_gravitasi_server')
+    s = rospy.Service('calculate_energi_potensial_gravitasi', EnergiPotensialGravitasi, handle_calculate_energi_potensial_gravitasi)
+    print("Siap untuk menghitung energi potensial gravitasi.")
+    rospy.spin()
+
+if __name__ == "__main__":
+    energi_potensial_gravitasi_server()

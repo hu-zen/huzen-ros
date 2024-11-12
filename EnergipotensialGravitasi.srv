@@ -1,0 +1,5 @@
+# EnergiPotensialGravitasi.srv
+float64 mass
+float64 height
+---
+float64 energy

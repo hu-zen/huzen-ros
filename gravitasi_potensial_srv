@@ -1,8 +1,0 @@
-# CalculateGravitationalPotential.srv
-
-# Permintaan (Request):
-float64 mass    # Massa dalam kilogram (kg)
-float64 height  # Ketinggian dalam meter (m)
-
-# Respons (Response):
-float64 potential_energy  # Energi potensial gravitasi (Joule)

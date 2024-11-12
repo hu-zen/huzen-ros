@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+import rospy
+from geometry_msgs.msg import Point
+from std_msgs.msg import Float64
+from your_package_name.srv import *  # Gantilah dengan nama package yang sesuai
+
+def calculate_gravity_potential(mass, height):
+    rospy.wait_for_service('calculate_gravitational_potential')
+    
+    try:
+        # Menghubungkan dengan service server
+        gravity_potential_service = rospy.ServiceProxy('calculate_gravitational_potential', Point)
+        
+        # Membuat objek request
+        request = Point()
+        request.x = mass
+        request.y = height
+        
+        # Mengirimkan request dan menerima respons
+        response = gravity_potential_service(request)
+        
+        # Menampilkan hasil
+        rospy.loginfo(f"Gravitational potential energy: {response.data} Joules")
+    except rospy.ServiceException as e:
+        rospy.logerr(f"Service call failed: {e}")
+
+if __name__ == "__main__":
+    rospy.init_node('gravity_potential_client')
+    
+    # Contoh nilai massa dan ketinggian
+    mass = 10  # massa dalam kg
+    height = 5  # ketinggian dalam meter
+    
+    calculate_gravity_potential(mass, height)

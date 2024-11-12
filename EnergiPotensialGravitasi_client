@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+import rospy
+from beginner_tutorials.srv import EnergiPotensialGravitasi
+
+def energi_potensial_gravitasi_client(mass, height):
+    rospy.wait_for_service('calculate_energi_potensial_gravitasi')
+    try:
+        # Membuat proxy untuk service
+        calculate_energy = rospy.ServiceProxy('calculate_energi_potensial_gravitasi', EnergiPotensialGravitasi)
+        # Memanggil service dan mendapatkan respons
+        response = calculate_energy(mass, height)
+        print("Energi potensial gravitasi: %s" % response.energy)
+    except rospy.ServiceException as e:
+        print("Panggilan service gagal: %s" % e)
+
+if __name__ == "__main__":
+    # Menentukan massa dan ketinggian
+    mass = 10.0  # Massa dalam kilogram
+    height = 5.0  # Ketinggian dalam meter
+    rospy.init_node('energi_potensial_gravitasi_client')
+    energi_potensial_gravitasi_client(mass, height)

@@ -2,7 +2,7 @@
 from __future__ import print_function
 import sys
 import rospy
-from gravitasi.srv import CalculateGravitationalForce
+from beginner_tutorials.srv import CalculateGravitationalForce
 
 def calculate_gravitational_force_client(mass1, mass2, distance):
     rospy.wait_for_service('calculate_gravitational_force')

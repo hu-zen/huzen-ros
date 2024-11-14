@@ -1,28 +1,21 @@
 #!/usr/bin/env python
 from __future__ import print_function
-import sys
 import rospy
-from beginner_tutorials.srv import CalculateGravitationalForce
+from beginner_tutorials.srv import CalculateGravitationalForce, CalculateGravitationalForceResponse
 
-def calculate_gravitational_force_client(mass1, mass2, distance):
-    rospy.wait_for_service('calculate_gravitational_force')
-    try:
-        calculate_gravitational_force = rospy.ServiceProxy('calculate_gravitational_force', CalculateGravitationalForce)
-        response = calculate_gravitational_force(mass1, mass2, distance)
-        return response.force
-    except rospy.ServiceException as e:
-        print("Service call failed: %s" % e)
+# Konstanta gravitasi (m^3 kg^-1 s^-2)
+G = 6.67430e-11
 
-def usage():
-    return "%s [mass1 mass2 distance]" % sys.argv[0]
+def handle_calculate_gravitational_force(req):
+    force = G * (req.mass1 * req.mass2) / (req.distance ** 2)
+    print("Calculating gravitational force with mass1=%s, mass2=%s, distance=%s. Result: %s" % (req.mass1, req.mass2, req.distance, force))
+    return CalculateGravitationalForceResponse(force)
+
+def gravitational_force_server():
+    rospy.init_node('gravitational_force_server')
+    s = rospy.Service('calculate_gravitational_force', CalculateGravitationalForce, handle_calculate_gravitational_force)
+    print("Ready to calculate gravitational force.")
+    rospy.spin()
 
 if __name__ == "__main__":
-    if len(sys.argv) == 4:
-        mass1 = float(sys.argv[1])
-        mass2 = float(sys.argv[2])
-        distance = float(sys.argv[3])
-    else:
-        print(usage())
-        sys.exit(1)
-    print("Requesting gravitational force with mass1=%s, mass2=%s, distance=%s" % (mass1, mass2, distance))
-    print("Gravitational force: %s N" % calculate_gravitational_force_client(mass1, mass2, distance))
+    gravitational_force_server()

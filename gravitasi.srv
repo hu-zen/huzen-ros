@@ -1,0 +1,5 @@
+float64 mass1
+float64 mass2
+float64 distance
+---
+float64 force
